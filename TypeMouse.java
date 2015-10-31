@@ -25,7 +25,7 @@ public class TypeMouse extends JFrame
     TypeParseRobot tpr=new TypeParseRobot(this);          
     public TypeMouse(){
         createAndShowGUI(); 
-               timer = new Timer(550, new ActionListener() {
+               timer = new Timer(timeTic, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 xpos=100;
@@ -41,6 +41,7 @@ public class TypeMouse extends JFrame
                 //cmpOver.repaint(r); 
                 sglLetter.revalidate(); 
                 sglLetter.repaint(r); 
+                sglLetter.setBuffer(tpr.capScr()); 
         }
       });
       timer.setCoalesce(true);

@@ -205,12 +205,20 @@ class TypeParseRobot {
             //System.out.println("bf is minDepth"); 
             //bf=robot.captureScr(0,0,globWidth,globHeight); 
             bf=null; 
-        }else{
-            System.out.println("bf is "+currDepth); 
-            bf=robot.captureScr(xCursor,yCursor,deltaH[currDepth-2],deltaV[currDepth-2]); 
+        } else{
+            //System.out.println("bf is "+currDepth); 
+            //bf=robot.captureScr(xCursor,yCursor,deltaH[currDepth-2],deltaV[currDepth-2]); 
+            bf=capScr(); 
         }
         tprListener.imageListener(bf,currDepth); 
     }
+    public BufferedImage capScr(){
+        if(currDepth==minDepth){
+            return null; 
+        }
+        return robot.captureScr(xPos[currDepth-2],yPos[currDepth-2],deltaH[currDepth-2],deltaV[currDepth-2]); 
+    }
+    
     private void focFunc(){
         if (switchFocus==true){
             this.switchFocus=false;

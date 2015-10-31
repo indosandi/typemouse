@@ -70,9 +70,9 @@ class CompLett extends JComponent {
             //drawLet(g,deltaV[iDepth-1],deltaH[iDepth-1],xPrev[iDepth-2],yPrev[iDepth-2]); 
             //drawLet(g,deltaV[iDepth-1],deltaH[iDepth-1],(iSel)*deltaH[iDepth-2],(jSel)*deltaV[iDepth-2]); 
 
-            //Graphics2D g2 = (Graphics2D) g;
-            //g2.setTransform(AffineTransform.getScaleInstance(3.0f,3.0f)); 
-            //g2.drawImage(buffer,null,0,globHeight/6); 
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setTransform(AffineTransform.getScaleInstance(3.0f,3.0f)); 
+            g2.drawImage(buffer,null,0,0); 
             //g2.setTransform(AffineTransform.getScaleInstance(1,1)); 
             //g2.drawString("testing",0,globHeight/2); 
         }
