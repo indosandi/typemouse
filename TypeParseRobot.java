@@ -31,8 +31,8 @@ class TypeParseRobot {
             //this.deltaV[i]=globHeight/(int)Math.pow(div-1,i+1);
             //this.deltaH[i]=globWidth/(int)Math.pow(div-1,i+1);
    
-            deltaV[i]=globHeight/(int)Math.pow(div-1,i+1);
-            deltaH[i]=globWidth/(int)Math.pow(div-1,i+1);
+            deltaV[i]=globHeight/(int)Math.pow(div[i]-1,i+1);
+            deltaH[i]=globWidth/(int)Math.pow(div[i]-1,i+1);
             if (deltaV[i]==0){
                 deltaV[i]=1;
             } else if (deltaH[i]==0){

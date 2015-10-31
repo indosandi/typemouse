@@ -1,3 +1,5 @@
+import java.awt.RenderingHints;
+import java.awt.AlphaComposite; 
 import java.awt.geom.AffineTransform;
 import static co.Constant.*; 
 import java.io.File; 
@@ -26,6 +28,9 @@ class CompLett extends JComponent {
     protected static final int ZOOM_AREA = 40;
     private float zoomLevel = 2f;
     public BufferedImage buffer;
+    
+    private Composite cScr=AlphaComposite.getInstance(AlphaComposite.SRC_OVER, trsScr); 
+    private Composite cTxt=AlphaComposite.getInstance(AlphaComposite.SRC_OVER, trsTxt); 
 
     public CompLett() {
     }
@@ -71,8 +76,18 @@ class CompLett extends JComponent {
             //drawLet(g,deltaV[iDepth-1],deltaH[iDepth-1],(iSel)*deltaH[iDepth-2],(jSel)*deltaV[iDepth-2]); 
 
             Graphics2D g2 = (Graphics2D) g;
-            g2.setTransform(AffineTransform.getScaleInstance(3.0f,3.0f)); 
-            g2.drawImage(buffer,null,0,0); 
+            g2.setTransform(AffineTransform.getScaleInstance(scaleTrans,scaleTrans)); 
+            g2.setComposite(cScr);
+            if(xTotal>globWidth/2 & yTotal>globHeight/2){
+                g2.drawImage(buffer,null,0,0); 
+            }else if(xTotal<globWidth/2 & yTotal>globHeight/2){
+                g2.drawImage(buffer,null,(globWidth/2+deltaH[1])/(int)scaleTrans,0); 
+            }else if(xTotal>globWidth/2 & yTotal<globHeight/2){
+                g2.drawImage(buffer,null,0,(globHeight/2+deltaV[1])/(int)scaleTrans); 
+            }
+            else{
+                g2.drawImage(buffer,null,(globWidth/2+deltaH[1])/(int)scaleTrans,(globHeight/2+deltaV[1])/(int)scaleTrans); 
+            }
             //g2.setTransform(AffineTransform.getScaleInstance(1,1)); 
             //g2.drawString("testing",0,globHeight/2); 
         }
@@ -100,12 +115,16 @@ class CompLett extends JComponent {
         //AffineTransform at = g2d.getTransform();
         //g2d.drawImage(buffer, 0, 0, this);
     }
-    private void drawLet(Graphics g, int deltaV, int deltaH,int padX,int padY){
+    private void drawLet(Graphics g1, int deltaV, int deltaH,int padX,int padY){
         //int deltaV=globHeight/(div-1);
         //int deltaH=globWidth/(div-1);
         //g.setFont(letFont); 
-        for(int i=0; i< div; i++){
-            for(int j=0; j<div; j++){
+        Graphics2D g = (Graphics2D) g1;
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setComposite(cTxt);
+        for(int i=0; i< div[0]; i++){
+            for(int j=0; j<div[0]; j++){
                if (i==iSel & j==jSel & bFirst==false){
                     g.setColor(lettColSel); 
                     //System.out.println(" double line red"); 
