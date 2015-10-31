@@ -1,75 +1,48 @@
-//import java.awt.Robot;
-//import static Constant.*; 
- //import static MyValues.*; 
-//import static Constant.*; 
-package org.indosandi.typemouse; 
 import static co.Constant.*; 
+import java.awt.image.BufferedImage; 
 import java.awt.event.InputEvent;
 import java.awt.MouseInfo; 
 import java.awt.Point; 
-//import java.awt.AWTException;
-//import java.awt.event.KeyEvent;
 import java.util.HashMap; 
 class TypeParseRobot {
-    //int globHeight=900;
-    //int globWidth=1440;
-    int[] deltaH=new int[3];
-    int[] deltaV=new int[3]; 
+    //int[] deltaH=new int[3];
+    //int[] deltaV=new int[3]; 
     int currDepth=1;
     boolean incDepth=false;
     boolean xInput=true;
     int xCursor=0;
     int yCursor=0; 
+    int[] xPos=new int[maxDepth]; 
+    int[] yPos=new int[maxDepth]; 
     boolean mousePress=false; 
     boolean wheelPress=false; 
     boolean switchFocus=false; 
     HashMap<Character,Integer> horzSymb=new HashMap<Character,Integer>();
     HashMap<Character,Integer> vertSymb=new HashMap<Character,Integer>();
 
-    //char[] symLoc={'a','s','d','f','w','e','x','c','v'}; 
-    //char leftClick='t';
-    //char holdRelClick='r';
-    //char rightClick='g';
-    //char wheelClick='u';
-    //char[] dirSymb={'h','j','k','l'}; 
-    //char depthBack='i'; 
-    //char depthForward='o'; 
-    //char changeFocus='q'; 
-    
+        
     RobotWrapper robot = new RobotWrapper();
-    //public static void  main(String[] args) throws AWTException{
-        //TypeParseRobot tpr=new TypeParseRobot(); 
-        //int iWait=1000; 
-        //tpr.recInput('w'); 
-        //tpr.recInput('w'); 
-        //tpr.delayWait(iWait); 
-        //tpr.recInput('u'); 
-        //tpr.recInput('f'); 
-        //tpr.delayWait(iWait); 
-        //tpr.recInput('v'); 
-        //tpr.recInput('u'); 
-        //tpr.delayWait(iWait); 
-        //tpr.recInput('j'); 
-        //tpr.delayWait(iWait); 
-        //tpr.recInput('h'); 
-        //return; 
-            //}
-
+    
     TprListener tprListener; 
-    //LetterListener ltrListener;
+    LetterListener ltrListener;
     public TypeParseRobot(TprListener t) //throws AWTException
     {
         for(int i=0;i<deltaH.length;i++){
-            this.deltaV[i]=globHeight/(int)Math.pow(div-1,i+1);
-            this.deltaH[i]=globWidth/(int)Math.pow(div-1,i+1);
-            System.out.println(deltaH[i]); 
-            //System.out.println(deltaV[i]); 
-
-            if (this.deltaV[i]==0){
-                this.deltaV[i]=1;
-            } else if (this.deltaH[i]==0){
-                this.deltaH[i]=1;
+            //this.deltaV[i]=globHeight/(int)Math.pow(div-1,i+1);
+            //this.deltaH[i]=globWidth/(int)Math.pow(div-1,i+1);
+   
+            deltaV[i]=globHeight/(int)Math.pow(div[i]-1,i+1);
+            deltaH[i]=globWidth/(int)Math.pow(div[i]-1,i+1);
+            if (deltaV[i]==0){
+                deltaV[i]=1;
+            } else if (deltaH[i]==0){
+                deltaH[i]=1;
             }
+            //if (this.deltaV[i]==0){
+                //this.deltaV[i]=1;
+            //} else if (this.deltaH[i]==0){
+                //this.deltaH[i]=1;
+            //}
 
         }
         for(int i=0;i<symLoc.length;i++){
@@ -77,17 +50,22 @@ class TypeParseRobot {
             vertSymb.put(symLoc[i],i);
         }
         this.tprListener=t; 
-        //this.ltrListener=ltr; 
         Point p = MouseInfo.getPointerInfo().getLocation();
         this.xCursor=p.x;
         this.yCursor=p.y; 
+
+        //initialize xPos yPos
+        for(int i=0;i<maxDepth;i++){
+            xPos[i]=0; 
+            yPos[i]=0; 
+        }
     }
     public void setTprListener(TprListener t){
         this.tprListener=t;
     }
-     //public void addLtrListener(LetterListener t){
-        //this.ltrListener=t;
-    //}
+     public void addLtrListener(LetterListener t){
+        this.ltrListener=t;
+    }
 
     public void recInput(char keyIn){
         if(horzSymb.containsKey(keyIn)){
@@ -115,20 +93,44 @@ class TypeParseRobot {
            return;
       }
       if(xInput){
-            xCursor=horzSymb.get(keyIn)*deltaH[currDepth-1]+paddingX;
+            //int temp=0; 
+            //for(int i=0;i<currDepth;i++){
+                //temp+=horzSymb.get(keyIn)*deltaH[currDepth-1-i]; 
+                //xCursor=horzSymb.get(keyIn)*deltaH[currDepth-1]+paddingX;
+            //}
+            xPos[currDepth-1]=horzSymb.get(keyIn)*deltaH[currDepth-1];
+            //xCursor=temp+paddingX;
             System.out.println(horzSymb.get(keyIn));
             System.out.println("pos X="+xCursor);
             System.out.println("deltaH"+deltaH[currDepth-1]);
             xInput=false; 
             tprListener.eraseListener();
-            tprListener.typeListener(keyIn,true);
+            tprListener.typeListener(horzSymb.get(keyIn),true);
+            tprListener.posListener(xPos,yPos); 
        } else if(xInput==false){
-            yCursor=vertSymb.get(keyIn)*deltaV[currDepth-1]+paddingY ;
+            //int temp=0; 
+            //for(int i=0;i<currDepth;i++){
+                //temp+=vertSymb.get(keyIn)*deltaV[currDepth-1-i]; 
+                //xCursor=horzSymb.get(keyIn)*deltaH[currDepth-1]+paddingX;
+            //}
+            yPos[currDepth-1]=vertSymb.get(keyIn)*deltaV[currDepth-1];
+            //yCursor=temp+paddingY;
+            //yCursor=vertSymb.get(keyIn)*deltaV[currDepth-1]+paddingY ;
             xInput=true; 
             System.out.println("pos Y="+yCursor);
-            tprListener.typeListener(keyIn,false); 
+            tprListener.typeListener(vertSymb.get(keyIn),false); 
+            tprListener.posListener(xPos,yPos); 
        }
-        robot.mouseMove(xCursor,yCursor); 
+            int totalX=0;
+            int totalY=0; 
+            for(int i=0;i<currDepth;i++){
+                totalX+=xPos[i]+paddingX[i];
+                totalY+=yPos[i]+paddingY[i];
+            }
+            xCursor=totalX; 
+            yCursor=totalY; 
+            //robot.mouseMove(xCursor,yCursor); 
+            robot.mouseMove(xCursor,yCursor); 
     }
     public void dirClick(char keyIn, int depth){
        int xdirCurs=xCursor;
@@ -156,20 +158,14 @@ class TypeParseRobot {
         if(!switchFocus){
             robot.switchFocus(); 
         }
-        //robot.mousePress(InputEvent.BUTTON1_MASK);
-        //robot.mouseRelease(InputEvent.BUTTON1_MASK);
     } else if(keyIn==rightClick){
         robot.mouseRightClick(); 
-        //robot.mousePress(InputEvent.BUTTON3_MASK);
-        //robot.mouseRelease(InputEvent.BUTTON3_MASK);
     } else if(keyIn==holdRelClick){
         if(mousePress){
             robot.mouseLeftRelease(); 
-            //robot.mouseRelease(InputEvent.BUTTON3_MASK);
             mousePress=false; 
         } else{
             robot.mouseLeftPress(); 
-            //robot.mousePress(InputEvent.BUTTON3_MASK);
             mousePress=true; 
         }
     } else if(keyIn==wheelClick && wheelPress==false){
@@ -194,8 +190,35 @@ class TypeParseRobot {
             currDepth++; 
         } else if(keyIn==depthBack){
             currDepth--; 
+            if(currDepth<minDepth){
+                currDepth=minDepth; 
+            }
+            else{
+                xPos[currDepth]=0; 
+                yPos[currDepth]=0; 
+            }
         }
+
+        //Capturing screen
+        BufferedImage bf; 
+        if(currDepth==minDepth){
+            //System.out.println("bf is minDepth"); 
+            //bf=robot.captureScr(0,0,globWidth,globHeight); 
+            bf=null; 
+        } else{
+            //System.out.println("bf is "+currDepth); 
+            //bf=robot.captureScr(xCursor,yCursor,deltaH[currDepth-2],deltaV[currDepth-2]); 
+            bf=capScr(); 
+        }
+        tprListener.imageListener(bf,currDepth); 
     }
+    public BufferedImage capScr(){
+        if(currDepth==minDepth){
+            return null; 
+        }
+        return robot.captureScr(xPos[currDepth-2],yPos[currDepth-2],deltaH[currDepth-2],deltaV[currDepth-2]); 
+    }
+    
     private void focFunc(){
         if (switchFocus==true){
             this.switchFocus=false;

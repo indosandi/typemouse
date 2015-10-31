@@ -1,8 +1,9 @@
-package org.indosandi.typemouse; 
 import java.awt.event.InputEvent;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.AWTException; 
 import java.awt.Robot;
+import java.awt.image.BufferedImage;
 public class RobotWrapper {
     private final Robot robot;
     private int delLeftClick=50; 
@@ -41,5 +42,10 @@ public class RobotWrapper {
         robot.delay(delLeftClick); //set the delay
         robot.keyRelease(KeyEvent.VK_META);
         robot.keyRelease(KeyEvent.VK_TAB);
+    }
+    public BufferedImage captureScr(int x,int y,int width, int height){
+        Rectangle r=new Rectangle(x,y,width,height); 
+        BufferedImage buffer=robot.createScreenCapture(r); 
+        return buffer; 
     }
 }

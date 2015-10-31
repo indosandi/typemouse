@@ -1,5 +1,5 @@
-package org.indosandi.typemouse;
 import static co.Constant.*;
+import java.awt.image.BufferedImage; 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -15,48 +15,42 @@ public class TypeMouse extends JFrame
 {
     JTextArea displayArea;
     JTextField typingArea;
-    //CompLett sglLetter; 
-    //static final String newline = System.getProperty("line.separator");
+    CompLett sglLetter; 
+    Timer timer; 
+    int xpos=10;
+    int ypos=10; 
+    int counter=0; 
+    ComponentOver cmpOver; 
      
     TypeParseRobot tpr=new TypeParseRobot(this);          
-    //public static void main(String[] args) throws AWTException {
-       //try {
-            ////UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            ////UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-            //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-        //} catch (UnsupportedLookAndFeelException ex) {
-            //ex.printStackTrace();
-        //} catch (IllegalAccessException ex) {
-            //ex.printStackTrace();
-        //} catch (InstantiationException ex) {
-            //ex.printStackTrace();
-        //} catch (ClassNotFoundException ex) {
-            //ex.printStackTrace();
-        //}
-        //[> Turn off metal's use of bold fonts <]
-        //UIManager.put("swing.boldMetal", Boolean.FALSE);
-        ////Schedule a job for event dispatch thread:
-        ////creating and showing this application's GUI.
-        //javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            //public void run() {
-                //createAndShowGUI(); 
-                ////new TypeMouse(); 
-                ////createAndShowGUI();
-            //}
-        //});
-
-    //}
-     
-    /**
-     * Create the GUI and show it.  For thread safety,
-     * this method should be invoked from the
-     * event-dispatching thread.
-     */
     public TypeMouse(){
         createAndShowGUI(); 
+               timer = new Timer(timeTic, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                xpos=100;
+                ypos=100; 
+                counter++;
+                //sglLetter.setStr("coba coba");     
+                sglLetter.setStr(Integer.toString(counter));     
+                //sglLetter.setPos(xpos,ypos); 
+                Rectangle r=new Rectangle(0,0,globWidth,globHeight); 
+                //System.out.println(xpos); 
+                //System.out.println(ypos); 
+                //cmpOver.revalidate(); 
+                //cmpOver.repaint(r); 
+                sglLetter.revalidate(); 
+                sglLetter.repaint(r); 
+                sglLetter.setBuffer(tpr.capScr()); 
+        }
+      });
+      timer.setCoalesce(true);
+      timer.setInitialDelay(0);
+      timer.start(); 
+
     }
     private void addAllListener(){
-        //tpr.addLtrListener(this); 
+       tpr.setTprListener(this); 
     }
 
     private void createAndShowGUI() {
@@ -65,7 +59,7 @@ public class TypeMouse extends JFrame
         //TypeMouse frame = new TypeMouse();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         
+        addAllListener();  
         Dimension d=new Dimension(globWidth,globHeight); 
         this.setPreferredSize(d); 
         this.setUndecorated(true);
@@ -73,29 +67,9 @@ public class TypeMouse extends JFrame
         this.setAlwaysOnTop(false);
         this.getRootPane().putClientProperty("apple.awt.draggableWindowBackground", true);
 
-        //frame.setPreferredSize(d); 
-        //frame.setUndecorated(true);
-        //frame.setBackground(backnd);
-        //frame.setAlwaysOnTop(false);
-        //frame.getRootPane().putClientProperty("apple.awt.draggableWindowBackground", true);
-               //JPanel panel = new JPanel();
-        //panel.setLayout(new GridLayout(1,1));
-        //panel.add(new ComponentOver(frame));
-        //panel.setBackground(backnd); 
-
-        //frame.getContentPane().add(panel);
-
-        //addKeyListener(this)
-        //Set up the content pane.
         this.addComponentsToPane();
-        //frame.addComponentsToPane();
-        //frame.setFocusable(true);
-
+        
         this.setResizable(false);
-        //frame.setResizable(false);
-        //Display the window.
-        //frame.pack();
-        //frame.setVisible(true);
         this.pack();
         this.setVisible(true);
     }
@@ -105,33 +79,22 @@ public class TypeMouse extends JFrame
         typingArea = new JTextField(3);
         typingArea.addKeyListener(this);
         ComponentOver cmpOver=new ComponentOver(this);  
-        //ComponentOver.addKeyListener(this);
-        //getContentPane().add(cmpOver);
-        //typingArea.setFocusTraversalKeysEnabled(false); 
-        //sglLetter=new CompLett(this); 
+                //typingArea.setFocusTraversalKeysEnabled(false); 
+        sglLetter=new CompLett(this); 
         getContentPane().add(typingArea);
-        //getContentPane().add(sglLetter);  
+        //getContentPane().add(cmpOver);
+        getContentPane().add(sglLetter);  
         //getContentPane().add(typingArea, BorderLayout.PAGE_START);
-        getContentPane().add(cmpOver);
     
     }
      
-    //public KeyEventDemo(String name) {
-        //super(name);
-    //}
-     
+         
      
     /** Handle the key typed event from the text field. */
     public void keyTyped(KeyEvent e) {
         char c = e.getKeyChar();
         tpr.recInput(c); 
-        //String str="x="+tpr.getXCursor()+" "+"y="+tpr.getYCursor(); 
-        //displayArea.setText(str); 
-        //displayArea.replaceRange("",0,20); 
-        //displayArea.insert(str,0);
-        //System.out.println(c); 
-        //displayInfo(e, "KEY TYPED: ");
-    }
+        }
      
     /** Handle the key pressed event from the text field. */
     public void keyPressed(KeyEvent e) {
@@ -148,25 +111,33 @@ public class TypeMouse extends JFrame
         //Clear the text components.
         displayArea.setText("");
         typingArea.setText("");
-         
         //Return the focus to the typing area.
         typingArea.requestFocusInWindow();
     }
-     
-    public void typeListener(char let, boolean x){
-        //String str="x="+tpr.getXCursor()+" "+"y="+tpr.getYCursor(); 
-        //displayArea.setText(str); 
-        //System.out.println("typeListener"); 
-        //System.out.println("disini"); 
-        //sglLetter.setStr("coba coba");     
-        //Rectangle r=new Rectangle(100,100, 50,50); 
-        //sglLetter.revalidate(); 
-        //sglLetter.repaint(r); 
+    public void typeListener(int i, boolean b){
+        sglLetter.setStr(Integer.toString(i)); 
+        //System.out.println(i); 
+        //System.out.println(b); 
+        if (b==true){
+            sglLetter.setISel(i);  
+            sglLetter.setBFirst(b); 
+        } 
+        else{
+            sglLetter.setJSel(i); 
+            sglLetter.setBFirst(b); 
+        }
     }
     public void eraseListener(){
         typingArea.setText("");
     }
-    public void letListen(char c, boolean b){
+
+    public void imageListener(BufferedImage b,int i){
+        sglLetter.setBuffer(b);         
+        sglLetter.setIDepth(i); 
+        //System.out.println("depth="+i); 
     }
+   public void posListener(int[] x, int[] y){
+        sglLetter.setPrev(x,y); 
+   } 
 }
 
