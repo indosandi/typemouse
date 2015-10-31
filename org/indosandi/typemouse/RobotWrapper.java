@@ -1,3 +1,5 @@
+package org.indosandi.typemouse; 
+import static org.indosandi.typemouse.co.Constant.*;
 import java.awt.event.InputEvent;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;

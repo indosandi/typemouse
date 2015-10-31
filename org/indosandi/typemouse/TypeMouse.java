@@ -1,4 +1,5 @@
-import static co.Constant.*;
+package org.indosandi.typemouse; 
+import static org.indosandi.typemouse.co.Constant.*;
 import java.awt.image.BufferedImage; 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,7 +21,7 @@ public class TypeMouse extends JFrame
     int xpos=10;
     int ypos=10; 
     int counter=0; 
-    ComponentOver cmpOver; 
+    //ComponentOver cmpOver; 
      
     TypeParseRobot tpr=new TypeParseRobot(this);          
     public TypeMouse(){
@@ -78,7 +79,7 @@ public class TypeMouse extends JFrame
          
         typingArea = new JTextField(3);
         typingArea.addKeyListener(this);
-        ComponentOver cmpOver=new ComponentOver(this);  
+        //ComponentOver cmpOver=new ComponentOver(this);  
                 //typingArea.setFocusTraversalKeysEnabled(false); 
         sglLetter=new CompLett(this); 
         getContentPane().add(typingArea);

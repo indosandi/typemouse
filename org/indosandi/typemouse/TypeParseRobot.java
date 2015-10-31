@@ -1,4 +1,5 @@
-import static co.Constant.*; 
+package org.indosandi.typemouse; 
+import static org.indosandi.typemouse.co.Constant.*;
 import java.awt.image.BufferedImage; 
 import java.awt.event.InputEvent;
 import java.awt.MouseInfo; 
@@ -24,7 +25,7 @@ class TypeParseRobot {
     RobotWrapper robot = new RobotWrapper();
     
     TprListener tprListener; 
-    LetterListener ltrListener;
+    //LetterListener ltrListener;
     public TypeParseRobot(TprListener t) //throws AWTException
     {
         for(int i=0;i<deltaH.length;i++){
@@ -63,9 +64,9 @@ class TypeParseRobot {
     public void setTprListener(TprListener t){
         this.tprListener=t;
     }
-     public void addLtrListener(LetterListener t){
-        this.ltrListener=t;
-    }
+     //public void addLtrListener(LetterListener t){
+        //this.ltrListener=t;
+    //}
 
     public void recInput(char keyIn){
         if(horzSymb.containsKey(keyIn)){

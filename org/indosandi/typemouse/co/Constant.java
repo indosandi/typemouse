@@ -1,4 +1,4 @@
-package co; 
+package org.indosandi.typemouse.co; 
 import java.awt.Color;
 import java.awt.Font; 
 public final class Constant{

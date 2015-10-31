@@ -1,7 +1,8 @@
+package org.indosandi.typemouse; 
+import static org.indosandi.typemouse.co.Constant.*;
 import java.awt.RenderingHints;
 import java.awt.AlphaComposite; 
 import java.awt.geom.AffineTransform;
-import static co.Constant.*; 
 import java.io.File; 
 import java.awt.image.BufferedImage; 
 import java.awt.geom.*;
