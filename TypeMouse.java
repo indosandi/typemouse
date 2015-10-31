@@ -1,4 +1,5 @@
 import static co.Constant.*;
+import java.awt.image.BufferedImage; 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -32,7 +33,7 @@ public class TypeMouse extends JFrame
                 counter++;
                 //sglLetter.setStr("coba coba");     
                 sglLetter.setStr(Integer.toString(counter));     
-                sglLetter.setPos(xpos,ypos); 
+                //sglLetter.setPos(xpos,ypos); 
                 Rectangle r=new Rectangle(0,0,globWidth,globHeight); 
                 //System.out.println(xpos); 
                 //System.out.println(ypos); 
@@ -114,8 +115,8 @@ public class TypeMouse extends JFrame
     }
     public void typeListener(int i, boolean b){
         sglLetter.setStr(Integer.toString(i)); 
-        System.out.println(i); 
-        System.out.println(b); 
+        //System.out.println(i); 
+        //System.out.println(b); 
         if (b==true){
             sglLetter.setISel(i);  
             sglLetter.setBFirst(b); 
@@ -128,7 +129,14 @@ public class TypeMouse extends JFrame
     public void eraseListener(){
         typingArea.setText("");
     }
-    public void letListen(char c, boolean b){
+
+    public void imageListener(BufferedImage b,int i){
+        sglLetter.setBuffer(b);         
+        sglLetter.setIDepth(i); 
+        //System.out.println("depth="+i); 
     }
+   public void posListener(int[] x, int[] y){
+        sglLetter.setPrev(x,y); 
+   } 
 }
 

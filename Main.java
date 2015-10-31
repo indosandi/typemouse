@@ -1,5 +1,5 @@
 import java.awt.AWTException; 
-import org.indosandi.typemouse.TypeMouse; 
+//import org.indosandi.typemouse.TypeMouse; 
 import javax.swing.*;
 public class Main {
       public static void main(String[] args) {
