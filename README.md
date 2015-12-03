@@ -3,13 +3,6 @@ Type Position of Mouse. Inspired by vim where movement of cursor is typed.
 
 Program in java that can change mouse position by typing. Combination of letter will appear on screen then typing it will locate mouse position
 
------------------
-To try,
-
-Compile: javac Main.java
-
-Run   :   java Main
------------------
 
 Key combination
   1. Typing letter on screen will bring cursor to the location
@@ -18,6 +11,10 @@ Key combination
   4.  'i' increase block distance ( for larger movement)
   
 This is still unfinished project where left click, right click, and scroll is not yet supported. 
+
+compile: javac Main.java 
+
+run   :   java Main
 
 For demonstration go to:
 https://www.youtube.com/watch?v=XalQJ9AcQcY&feature=youtu.be
