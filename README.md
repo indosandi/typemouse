@@ -1,7 +1,7 @@
 # typemouse
 Type Position of Mouse. Inspired by vim where movement of cursor is typed.
 
-Program in java that can change mouse position by typing. Combination of letter will appear on screen then typing it will locate mouse position
+Program in java that can change mouse position by typing on keyboard. Combination of letter will appear on screen then typing it will locate mouse position
 
 
 Key combination
